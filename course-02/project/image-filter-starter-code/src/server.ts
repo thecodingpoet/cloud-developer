@@ -27,8 +27,8 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
     
     res.sendFile(filteredImage)
 
-    res.on('finish', function() {
-      deleteLocalFiles([filteredImage]) 
+    res.on('finish', async () => {
+      await deleteLocalFiles([filteredImage]) 
     });
   } );
 
