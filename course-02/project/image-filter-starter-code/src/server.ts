@@ -1,11 +1,11 @@
-import express from 'express';
+import express, { Application, Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
 (async () => {
 
   // Init the Express application
-  const app = express();
+  const app: Application = express();
 
   // Set the network port
   const port = process.env.PORT || 8082;
@@ -16,14 +16,14 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
 
   // GET /filteredimage?image_url={{URL}}
   // endpoint to filter an image from a public url.
-  app.get( "/filteredimage", async ( req, res ) => {
-    const image_url = req.query && req.query.image_url
+  app.get( "/filteredimage", async ( req: Request, res: Response ) => {
+    const imageUrl: string = req.query && req.query.image_url
 
-    if (!image_url) {
+    if (!imageUrl) {
       return res.status(422).send('You need to provide a image url')
     }
 
-    const filteredImage = await filterImageFromURL(image_url)
+    const filteredImage: string = await filterImageFromURL(imageUrl)
     
     res.sendFile(filteredImage)
 
@@ -33,11 +33,9 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   } );
 
 
-  //! END @TODO1
-  
   // Root Endpoint
   // Displays a simple message to the user
-  app.get( "/", async ( req, res ) => {
+  app.get( "/", async ( req: Request, res: Response  ) => {
     res.send("try GET /filteredimage?image_url={{}}")
   } );
   
